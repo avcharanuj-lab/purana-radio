@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="hi" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PURANA RADIO | पुराना रेडियो • 1980s Indian Bus & Barber Shop Player</title>
+  <meta name="description" content="Nostalgic 1980s-1990s Indian Bus Radio & Barber Shop Cassette Player web app.">
+
+  <!-- Google Fonts: Retro Indian display & typewriter fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Kalam:wght@400;700&family=Rozha+One&family=Share+Tech+Mono&family=Yatra+One&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📻</text></svg>">
+</head>
+<body>
+  <!-- Ambient Vintage Noise/Scanlines overlay -->
+  <div class="vintage-overlay" aria-hidden="true"></div>
+
+  <!-- Autoplay Blocked Fallback Modal / Tap to Tune In -->
+  <div id="autoplay-prompt" class="autoplay-modal hidden">
+    <div class="autoplay-card">
+      <div class="modal-badge">✨ 1980s VINTAGE STEREO ✨</div>
+      <div class="modal-icon">📻</div>
+      <h2 class="modal-title">पुराना रेडियो में आपका स्वागत है</h2>
+      <p class="modal-sub">WELCOME TO PURANA RADIO</p>
+      <p class="modal-desc">
+        ब्राउज़र अनुमति की आवश्यकता है। संगीत शुरू करने के लिए नीचे दिए बटन पर क्लिक करें।
+      </p>
+      <button id="tap-to-play-btn" class="tap-play-button" aria-label="Start Radio Playback">
+        <span class="btn-icon">▶</span>
+        <span class="btn-text">रेडियो चालू करें • TUNE IN NOW</span>
+      </button>
+      <span class="modal-footnote">★ ऑल इंडिया रेडियो & बस वाले पुराने गाने ★</span>
+    </div>
+  </div>
+
+  <main class="app-wrapper">
+    <!-- Top Decorative Bus Signboard & Decals -->
+    <header class="radio-header">
+      <div class="decal decal-shubh">
+        <span class="decal-icon">🕉️</span>
+        <span class="decal-text">शुभ यात्रा</span>
+      </div>
+
+      <div class="brand-crest">
+        <div class="crest-lines"></div>
+        <h1 class="radio-title">पुराना RADIO</h1>
+        <p class="radio-tagline">SOLID STATE 2-BAND CASSETTE TRANSISTOR • 1985</p>
+        <div class="crest-lines"></div>
+      </div>
+
+      <div class="decal decal-horn">
+        <span class="decal-text-en">HORN</span>
+        <span class="decal-center">OK</span>
+        <span class="decal-text-en">PLEASE</span>
+      </div>
+    </header>
+
+    <!-- Main Analog Radio Chassis -->
+    <section class="radio-chassis" aria-label="Purana Radio Cassette Deck">
+      <!-- Handle and Top Screws -->
+      <div class="chassis-handle-mount" aria-hidden="true">
+        <div class="handle-bracket left"></div>
+        <div class="chassis-handle"></div>
+        <div class="handle-bracket right"></div>
+      </div>
+
+      <div class="cabinet-frame">
+        <!-- Top Control Strip: Category / Station Band Selectors -->
+        <div class="band-selector-strip">
+          <div class="band-label-title">
+            <span class="indicator-dot red" id="power-led"></span>
+            <span class="band-text">STATION SELECTOR / स्टेशन चुनें</span>
+          </div>
+
+          <div class="category-buttons" role="tablist" aria-label="Music Categories">
+            <button id="cat-bus" class="cat-btn active" role="tab" aria-selected="true" aria-controls="playlist-panel">
+              <span class="cat-led"></span>
+              <span class="cat-hindi">🚌 बस वाले गाने</span>
+              <span class="cat-eng">HIGHWAY EXPRESS 98.4 FM</span>
+            </button>
+
+            <button id="cat-barber" class="cat-btn" role="tab" aria-selected="false" aria-controls="playlist-panel">
+              <span class="cat-led"></span>
+              <span class="cat-hindi">💈 BARBER SHOP RADIO</span>
+              <span class="cat-eng">SALOON TRANSISTOR 104.2 FM</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Upper Panel: Analog Frequency Tuner Dial -->
+        <div class="tuner-window">
+          <div class="tuner-glass-glare" aria-hidden="true"></div>
+          
+          <div class="tuner-scale-header">
+            <span class="scale-brand">NATIONAL PANASONIC • 2-BAND HIGH SENSITIVITY</span>
+            <div class="tuner-indicators">
+              <span class="stereo-indicator active" id="stereo-led">● STEREO</span>
+              <span class="tuning-indicator" id="tuning-led">● TUNING</span>
+            </div>
+          </div>
+
+          <!-- Analog Glass Frequency Scale with Needle -->
+          <div class="frequency-dial-container" id="frequency-dial">
+            <div class="dial-track mw-track">
+              <span class="band-tag">MW</span>
+              <span class="freq-num">530</span>
+              <span class="freq-station">AKASHVANI</span>
+              <span class="freq-num">700</span>
+              <span class="freq-station">VIVIDH BHARATI</span>
+              <span class="freq-num">1000</span>
+              <span class="freq-station">CEYLON</span>
+              <span class="freq-num">1400</span>
+              <span class="freq-num">1600</span>
+              <span class="unit-tag">kHz</span>
+            </div>
+
+            <div class="dial-track fm-track">
+              <span class="band-tag">FM</span>
+              <span class="freq-num">88</span>
+              <span class="freq-station highlight-bus">BUS EXP (98.4)</span>
+              <span class="freq-num">98</span>
+              <span class="freq-station highlight-barber">BARBER (104.2)</span>
+              <span class="freq-num">104</span>
+              <span class="freq-num">108</span>
+              <span class="unit-tag">MHz</span>
+            </div>
+
+            <!-- Red Analog Tuning Needle -->
+            <div class="tuning-needle" id="tuning-needle" style="left: 45%;">
+              <div class="needle-glow"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Section: Cassette Tape Deck & Speaker Grille Split -->
+        <div class="deck-split-section">
+          <!-- LEFT: Cassette Tape Well -->
+          <div class="cassette-deck-bay">
+            <div class="deck-frame">
+              <div class="deck-header">
+                <span class="deck-model">AUTO REVERSE STEREO DECK</span>
+                <span class="deck-counter" id="tape-counter">000</span>
+              </div>
+
+              <!-- Cassette Tape Body -->
+              <div class="cassette-tape" id="cassette-tape">
+                <!-- Cassette Top Screws -->
+                <div class="c-screw top-l" aria-hidden="true"></div>
+                <div class="c-screw top-r" aria-hidden="true"></div>
+                <div class="c-screw bot-l" aria-hidden="true"></div>
+                <div class="c-screw bot-r" aria-hidden="true"></div>
+
+                <!-- Cassette Label Sticker -->
+                <div class="cassette-label">
+                  <div class="label-top-bar">
+                    <span class="label-brand">SUPER CASSETTE 90</span>
+                    <span class="label-side" id="cassette-side">SIDE A</span>
+                  </div>
+
+                  <div class="label-song-info">
+                    <div class="label-song-title" id="cassette-title">सुहाना सफर</div>
+                    <div class="label-song-artist" id="cassette-artist">किशोर कुमार & पंचम दा</div>
+                  </div>
+
+                  <!-- Cassette Tape Window & Spools -->
+                  <div class="tape-window-frame">
+                    <!-- Left Spool -->
+                    <div class="cassette-spool left-spool" id="spool-left">
+                      <div class="spool-teeth"></div>
+                      <div class="spool-teeth cross"></div>
+                      <div class="spool-core"></div>
+                      <div class="tape-pack left-pack" id="tape-pack-left"></div>
+                    </div>
+
+                    <!-- Center Window Glass & Measurement ticks -->
+                    <div class="tape-ruler">
+                      <div class="ruler-ticks">
+                        <span>100</span>
+                        <span>50</span>
+                        <span>0</span>
+                      </div>
+                      <div class="tape-bridge"></div>
+                    </div>
+
+                    <!-- Right Spool -->
+                    <div class="cassette-spool right-spool" id="spool-right">
+                      <div class="spool-teeth"></div>
+                      <div class="spool-teeth cross"></div>
+                      <div class="spool-core"></div>
+                      <div class="tape-pack right-pack" id="tape-pack-right"></div>
+                    </div>
+                  </div>
+
+                  <div class="label-bottom-bar">
+                    <span class="label-cat-tag" id="cassette-cat-tag">बस वाले गाने</span>
+                    <span class="label-badge">HI-FI DOLBY SYSTEM</span>
+                  </div>
+                </div>
+
+                <!-- Exposed Tape Head Area -->
+                <div class="cassette-bottom-bay">
+                  <div class="head-hole"></div>
+                  <div class="pressure-pad"></div>
+                  <div class="head-hole"></div>
+                </div>
+              </div>
+
+              <!-- Deck Glass Reflection Sheen -->
+              <div class="deck-glass-sheen" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Retro Speaker Grille Cloth & Analog VU Meter -->
+          <div class="speaker-grille-bay">
+            <div class="speaker-cloth" id="speaker-cloth">
+              <div class="grille-badge">
+                <div class="badge-ring">
+                  <span class="badge-name">MURPHY</span>
+                  <span class="badge-sub">ACOUSTIC DYNAMICS</span>
+                </div>
+              </div>
+
+              <!-- Retro Visualizer / VU Meter behind cloth -->
+              <div class="retro-vu-meter" aria-hidden="true">
+                <div class="vu-needle-box">
+                  <div class="vu-arc">
+                    <span class="vu-min">-20</span>
+                    <span class="vu-mid">0dB</span>
+                    <span class="vu-max">+3</span>
+                  </div>
+                  <div class="vu-needle" id="vu-needle"></div>
+                </div>
+                <!-- LED Level Column -->
+                <div class="vu-bars" id="vu-bars">
+                  <span class="bar b1"></span>
+                  <span class="bar b2"></span>
+                  <span class="bar b3"></span>
+                  <span class="bar b4"></span>
+                  <span class="bar b5"></span>
+                  <span class="bar b6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Retro LCD / Screen Information Banner -->
+        <div class="radio-screen-strip">
+          <div class="lcd-screen">
+            <div class="lcd-row top-row">
+              <span class="lcd-track-num" id="lcd-track-num">TRACK [01/04]</span>
+              <span class="lcd-status" id="lcd-status">PAUSED ⏸</span>
+              <span class="lcd-channel" id="lcd-channel">CH-1: BUS SPECIAL</span>
+            </div>
+            <div class="lcd-row main-row">
+              <span class="lcd-marquee" id="lcd-title">SUHANA SAFAR (HIGHWAY EXPRESS) — KISHORE KUMAR & R.D. BURMAN</span>
+            </div>
+          </div>
+
+          <!-- Signal / Error Alert Box (Friendly message when audio unavailable) -->
+          <div id="audio-error-banner" class="audio-alert hidden" role="alert">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-msg" id="audio-error-text">सिग्नल कमज़ोर है / Audio track signal unavailable. Retrying connection...</span>
+            <button id="retry-btn" class="alert-retry-btn">फिर से ट्यून करें (Retry)</button>
+          </div>
+        </div>
+
+        <!-- Progress Bar & Time Stamps -->
+        <div class="progress-section">
+          <span class="time-display time-elapsed" id="time-elapsed">00:00</span>
+          
+          <div class="seek-bar-wrapper" id="seek-bar-container">
+            <div class="seek-track">
+              <div class="seek-fill" id="seek-fill" style="width: 0%;"></div>
+              <div class="seek-thumb" id="seek-thumb" style="left: 0%;"></div>
+            </div>
+          </div>
+
+          <span class="time-display time-total" id="time-total">00:00</span>
+        </div>
+
+        <!-- The Three Main Controls: PREV, PLAY/PAUSE, NEXT -->
+        <div class="main-transport-controls" role="toolbar" aria-label="Audio Controls">
+          <!-- PREV BUTTON -->
+          <button id="btn-prev" class="tape-btn btn-prev" aria-label="Previous Track" title="Previous Track (पिछला गाना)">
+            <span class="btn-cap">
+              <span class="btn-symbol">⏮</span>
+              <span class="btn-label-en">PREV</span>
+              <span class="btn-label-hi">पिछला</span>
+            </span>
+          </button>
+
+          <!-- PLAY / PAUSE BUTTON -->
+          <button id="btn-play" class="tape-btn btn-play" aria-label="Play or Pause" title="Play / Pause (बजाओ / रोको)">
+            <span class="btn-cap">
+              <span class="btn-symbol" id="play-icon">⏵</span>
+              <span class="btn-label-en" id="play-label-en">PLAY</span>
+              <span class="btn-label-hi" id="play-label-hi">बजाओ</span>
+            </span>
+          </button>
+
+          <!-- NEXT BUTTON -->
+          <button id="btn-next" class="tape-btn btn-next" aria-label="Next Track" title="Next Track (अगला गाना)">
+            <span class="btn-cap">
+              <span class="btn-symbol">⏭</span>
+              <span class="btn-label-en">NEXT</span>
+              <span class="btn-label-hi">अगला</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Bottom Hardware Decal Bar -->
+        <div class="chassis-footer">
+          <div class="footer-decal">
+            <span class="footer-dot"></span>
+            <span>धूम्रपान निषेध • NO SMOKING</span>
+          </div>
+          <div class="footer-serial">
+            <span>MODEL: PR-1985 • SERIAL #BOM-400001</span>
+          </div>
+          <div class="footer-decal right">
+            <span>सवारी अपने सामान की खुद ज़िम्मेदार है</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hidden HTML5 Audio Element & SFX Audio Elements -->
+    <audio id="main-audio" preload="auto"></audio>
+    <audio id="sfx-click" src="audio/sfx/click.wav" preload="auto"></audio>
+    <audio id="sfx-tuning" src="audio/sfx/tuning.wav" preload="auto"></audio>
+
+    <footer class="app-credit">
+      <p>📻 <strong>पुराना रेडियो (PURANA RADIO)</strong> • Dedicated to the timeless Indian highway buses & barber shop transistor memories.</p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
